@@ -1,7 +1,9 @@
 /**
- * Lists the labels in the user's account and delete the label containing strings listed in labelsToDeleteArray
+ * Lists and delete the labels containing strings listed in 'labelsToDeleteArray'
+ * Edit below to match your labels to clean up
+ * Only matching labels are deleted. E-mails threads are kept.
  */
-function listLabels() {
+function deleteLabels() {
   // List the label substrings to delete
   var labelsToDeleteArray = ["labelSubString1", "labelSubString2..."];
   
