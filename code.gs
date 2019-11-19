@@ -1,15 +1,23 @@
 /**
  * Lists and delete the labels containing strings listed in 'labelsToDeleteArray'
- * Edit below to match your labels to clean up
  * Only matching labels are deleted. E-mails threads are kept.
+ * 
+ * 1. You need to agree to Term of Services before on https://script.google.com/
+ * 2. Then, enable GMail API in menu Resources > Advanced Google Services
+ * 3. Edit labelsToDeleteArray to match your labels to clean up
+ * 4. Then Run : Menu Run > Run function > deleteLabels
+ * 5. See Logs : Menu View > Logs
+ *
  */
 function deleteLabels() {
-  // List the label substrings to delete
+  /////////////////////////////////////////
+  // List here the label substrings to delete
   var labelsToDeleteArray = ["labelSubString1", "labelSubString2..."];
+  /////////////////////////////////////////
   
-  var labels = GmailApp.getUserLabels();
   var j = 0;
-  
+  var labels = GmailApp.getUserLabels();
+    
   if (labels.length == 0) {
     Logger.log('No labels found.');
   } else {
@@ -35,6 +43,7 @@ function deleteLabels() {
   Logger.log(j + " label(s) deleted")
 }
 
+// search pattern in text
 function kmpSearch(pattern, text) {
   if (pattern.length == 0)
     return 0; // Immediate match
