@@ -43,6 +43,70 @@ function deleteLabels() {
   Logger.log(j + " label(s) deleted")
 }
 
+
+/**
+ * Lists and delete the labels containing no conversation
+ * 
+ * If you want to keep some labels even if they are empty, edit  variable below : labelsToExclude
+ */
+function deleteEmptyLabels() {
+  /////////////////////////////////////////
+  // List here the label substrings to exclude from deletion
+  var labelsToExclude = ["Read", "Action", "Reference", "Waiting"];
+  /////////////////////////////////////////
+  
+  var j = 0;
+  var labels = GmailApp.getUserLabels();
+  
+  if (labels.length == 0) {
+    Logger.log('No labels found.');
+  } else {
+    Logger.log('Labels:');
+    for (var i = 0; i < labels.length; i++) 
+    {
+      var label = labels[i];
+      var name = new String(label.getName())
+      Logger.log('- %s', name);
+      conversations = label.getThreads(0, 30);
+      if (conversations.length == 0) 
+      {
+        labelToDelete = false;
+
+exit_loop:
+        labelsToExclude.forEach(function(labelToCompare) {
+          if (kmpSearch(labelToCompare, name) != -1) 
+          {
+            Logger.log("'"  + labelToCompare + "' found in %s. Skipping", name);
+          } 
+          else 
+          {
+            try 
+            {
+              Logger.log("=> Label will be deleted");
+              labelToDelete = true;
+            } catch (e) {
+              Logger.log("Can't delete label " + name + ". Error : " + e.name + ': ' + e.message);
+            }
+          }
+          if (labelToDelete) { return; } // FIXME break doesn't work. Return doesn't work either
+        });
+        if (labelToDelete == true)
+        {
+          Logger.log("Deleting label" + name);
+          label.deleteLabel();
+          j = j + 1;
+        }
+
+      }
+      else {
+        Logger.log("Label '%s' has %s or more conversations", name, conversations.length)
+      }
+      
+    }
+    Logger.log(j + " label(s) deleted")
+  }
+}
+
 // search pattern in text
 function kmpSearch(pattern, text) {
   if (pattern.length == 0)
