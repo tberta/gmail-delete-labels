@@ -1,4 +1,4 @@
-# gmail-detele-labels
+# gmail-delete-labels
 Google App Script to delete labels
 
 1. Import this script in [GSuite Developer Hub](https://script.google.com/)
